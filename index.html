@@ -11,8 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/styles.css?v=4">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="./css/styles.css?v=5">
   </head>
   <body class="min-h-screen">
     <!-- Navigation -->
@@ -178,8 +177,8 @@
         <div class="mx-auto max-w-3xl text-center">
           <div
             class="mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
-            data-aos="fade-down"
-            data-aos-delay="100"
+           
+           
             style="
               border-color: rgb(37, 44, 55);
               background: rgba(29, 34, 43, 0.5);
@@ -209,14 +208,14 @@
 
           <p
             class="mx-auto mt-5 max-w-xl text-sm sm:text-base lg:text-lg leading-relaxed"
-            data-aos="fade-up"
-            data-aos-delay="300"
+           
+           
             style="color: rgb(123, 137, 157)"
           >
             We build the systems that replace your bottlenecks — automation, AI agents, and technical infrastructure that actually works while you sleep.
           </p>
 
-          <div class="mt-6 flex flex-wrap items-center justify-center gap-2" data-aos="fade-up" data-aos-delay="400">
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
             <span
               class="rounded-full border px-3 py-1 text-xs font-medium"
               style="
@@ -257,8 +256,8 @@
 
           <div
             class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
-            data-aos="fade-up"
-            data-aos-delay="500"
+           
+           
           >
             <a
               href="#contact"
@@ -311,7 +310,7 @@
         <p
           class="text-xs font-medium uppercase tracking-widest mb-3"
           style="color: rgb(51, 204, 153)"
-          data-aos="fade-up"
+         
         >
           What We Build
         </p>
@@ -1286,123 +1285,77 @@
       </div>
 
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="./js/main.js?v=4"></script>
+    <script src="./js/main.js?v=5"></script>
     <script>
-      // Init AOS
-      AOS.init({
-        duration: 800,
-        easing: 'ease-out-cubic',
-        once: true,
-        offset: 80
-      });
-
-      // Auto-stagger: add AOS fade-up with incremental delay to all grid children
-      document.querySelectorAll('#services .grid > div, #deployments .grid > div, #framework .grid > div').forEach(function(card, i) {
-        card.setAttribute('data-aos', 'fade-up');
-        card.setAttribute('data-aos-delay', String((i % 4) * 100));
-      });
-
-      // Why It Matters cards
-      document.querySelectorAll('section:not(#services):not(#deployments):not(#framework):not(#contact) .grid > div').forEach(function(card, i) {
-        if (!card.getAttribute('data-aos')) {
-          card.setAttribute('data-aos', 'fade-up');
-          card.setAttribute('data-aos-delay', String((i % 3) * 100));
-        }
-      });
-
-      // Contact section elements
-      var contactSection = document.getElementById('contact');
-      if (contactSection) {
-        var contactGrid = contactSection.querySelector('.grid');
-        if (contactGrid) {
-          var cols = contactGrid.children;
-          if (cols[0]) cols[0].setAttribute('data-aos', 'fade-right');
-          if (cols[1]) cols[1].setAttribute('data-aos', 'fade-left');
-        }
-      }
-
-      // Re-init AOS after dynamic attribute additions
-      AOS.refresh();
-
-      // GSAP ScrollTrigger — parallax and scale effects
       gsap.registerPlugin(ScrollTrigger);
 
-      // Hero glow parallax — drifts up and fades as you scroll
-      var heroGlow = document.querySelector('.blur-\\[120px\\]');
+      // — HERO: stagger badge, subtitle, tags, CTA —
+      gsap.from('.mx-auto.max-w-3xl .inline-flex.mb-6', {
+        opacity: 0, y: -20, duration: 0.6, delay: 0.2, ease: 'power2.out'
+      });
+      gsap.from('.mx-auto.max-w-3xl > p', {
+        opacity: 0, y: 30, duration: 0.7, delay: 0.5, ease: 'power2.out'
+      });
+      gsap.from('.mx-auto.max-w-3xl .mt-6', {
+        opacity: 0, y: 20, duration: 0.6, delay: 0.7, ease: 'power2.out'
+      });
+      gsap.from('.mx-auto.max-w-3xl .mt-8', {
+        opacity: 0, y: 20, duration: 0.6, delay: 0.9, ease: 'power2.out'
+      });
+
+      // — HERO parallax: glow drifts up, grid shifts —
+      var heroGlow = document.querySelector('[class*="blur-"]');
       if (heroGlow) {
         gsap.to(heroGlow, {
-          y: 200,
-          opacity: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: 'section:first-of-type',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
+          y: 150, opacity: 0, ease: 'none',
+          scrollTrigger: { trigger: 'section', start: 'top top', end: 'bottom top', scrub: true }
         });
       }
 
-      // Grid background subtle parallax
-      var gridBg = document.querySelector('.absolute.inset-0 > div');
-      if (gridBg) {
-        gsap.to(gridBg, {
-          backgroundPosition: '0 60px',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: 'section:first-of-type',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
+      // — SECTION HEADINGS: scale-up reveal (Apple style) —
+      document.querySelectorAll('section h2').forEach(function(h) {
+        gsap.from(h, {
+          scale: 0.92, opacity: 0, y: 30, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: h, start: 'top 85%', toggleActions: 'play none none none' }
+        });
+      });
+
+      // — SECTION LABELS: slide in from left —
+      document.querySelectorAll('section .text-xs.font-medium.uppercase').forEach(function(el) {
+        gsap.from(el, {
+          x: -30, opacity: 0, duration: 0.7, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        });
+      });
+
+      // — GRID CARDS: stagger fade-up —
+      document.querySelectorAll('section .grid').forEach(function(grid) {
+        var cards = grid.children;
+        gsap.from(cards, {
+          opacity: 0, y: 40, duration: 0.6, stagger: 0.12, ease: 'power2.out',
+          scrollTrigger: { trigger: grid, start: 'top 80%', toggleActions: 'play none none none' }
+        });
+      });
+
+      // — CONTACT: form slides right, direct contact slides left —
+      var contactGrid = document.querySelector('#contact .grid');
+      if (contactGrid && contactGrid.children.length >= 2) {
+        gsap.from(contactGrid.children[0], {
+          x: -40, opacity: 0, duration: 0.8, ease: 'power2.out',
+          scrollTrigger: { trigger: contactGrid, start: 'top 80%', toggleActions: 'play none none none' }
+        });
+        gsap.from(contactGrid.children[1], {
+          x: 40, opacity: 0, duration: 0.8, delay: 0.15, ease: 'power2.out',
+          scrollTrigger: { trigger: contactGrid, start: 'top 80%', toggleActions: 'play none none none' }
         });
       }
 
-      // Section headings — scale up from slightly small (Apple-style)
-      document.querySelectorAll('#services h2, #deployments h2, #framework h2, #contact h2, section > div > h2').forEach(function(el) {
-        gsap.from(el, {
-          scale: 0.9,
-          opacity: 0,
-          y: 40,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
-        });
-      });
-
-      // Section subtitles — fade in after heading
-      document.querySelectorAll('#services > div > p:first-of-type, #deployments > div > p:first-of-type, #framework > div > p:first-of-type, section > div > p.text-xs').forEach(function(el) {
-        gsap.from(el, {
-          opacity: 0,
-          y: 20,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 90%',
-            toggleActions: 'play none none none'
-          }
-        });
-      });
-
-      // Footer fade in
+      // — FOOTER: gentle reveal —
       gsap.from('footer', {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: 'footer',
-          start: 'top 95%',
-          toggleActions: 'play none none none'
-        }
+        opacity: 0, y: 20, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: 'footer', start: 'top 95%', toggleActions: 'play none none none' }
       });
     </script>
   </body>
